@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <vector>
+#include <cmath>
 class StatsAlerter {
 public:
     StatsAlerter(float maxThreshold, const std::vector<IAlerter*>& alerters);
