@@ -1,15 +1,25 @@
 #include "alerter.h"
 
-void EmailAlert::alert() {
-    // Code to send email alert
-    emailSent = true;
-}
+class IAlerter {
+public:
+    virtual void alert() = 0;
+};
 
-void LEDAlert::alert() {
-    // Code to make LED glow
-    ledGlows = true;
-}
+// EmailAlert
+class EmailAlert : public IAlerter {
+public:
+    void alert() override;
 
+    bool emailSent = false; 
+};
+
+// LEDAlert 
+class LEDAlert : public IAlerter {
+public:
+    void alert() override;
+
+    bool ledGlows = false; 
+};
 // StatsAlerter constructor
 StatsAlerter::StatsAlerter(float maxThreshold, const std::vector<IAlerter*>& alerters)
     : maxThreshold(maxThreshold), alerters(alerters) {}
