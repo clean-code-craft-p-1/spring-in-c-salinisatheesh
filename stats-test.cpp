@@ -1,5 +1,5 @@
 #include "stats.h"
-
+#include "alerter.h"
 #include "gtest/gtest.h"
 #include <stdlib.h>
 #include <math.h>
