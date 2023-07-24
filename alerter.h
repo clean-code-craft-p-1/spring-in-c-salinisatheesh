@@ -1,9 +1,11 @@
 #include <stdio.h>
 #include <vector>
-typedef void (*alerter_funcptr)(void);
+class StatsAlerter {
+public:
+    StatsAlerter(float maxThreshold, const std::vector<IAlerter*>& alerters);
+    void checkAndAlert(const std::vector<float>& numberset);
 
-void emailAlerter(void);
-void ledAlerter(void);
-
-void check_and_alert(const float maxThreshold, alerter_funcptr* alerters, struct Stats computedStats);
-
+private:
+    float maxThreshold_;
+    std::vector<IAlerter*> alerters_;
+};
