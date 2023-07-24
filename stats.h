@@ -1,6 +1,4 @@
-#ifndef STATS_H
-#define STATS_H
-
+#include <stdio.h>
 struct Stats {
     float average;
     float max;
@@ -9,4 +7,4 @@ struct Stats {
 
 struct Stats compute_statistics(const float* numbers, int length);
 
-#endif // STATS_H
+
