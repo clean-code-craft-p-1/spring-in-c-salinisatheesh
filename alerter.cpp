@@ -1,29 +1,23 @@
 #include "alerter.h"
 
-class IAlerter {
-public:
-    virtual void alert() = 0;
-};
+// EmailAlert implementation
+void EmailAlert::alert() {
+    // Implementation to send an email alert
+    // For the purpose of this example, we will just set a flag to indicate the alert
+    emailSent = true;
+}
 
-// EmailAlert
-class EmailAlert : public IAlerter {
-public:
-    void alert() override;
+// LEDAlert implementation
+void LEDAlert::alert() {
+    // Implementation to activate an LED alert
+    // For the purpose of this example, we will just set a flag to indicate the alert
+    ledGlows = true;
+}
 
-    bool emailSent = false; 
-};
-
-// LEDAlert 
-class LEDAlert : public IAlerter {
-public:
-    void alert() override;
-
-    bool ledGlows = false; 
-};
 // StatsAlerter constructor
 StatsAlerter::StatsAlerter(float maxThreshold, const std::vector<IAlerter*>& alerters)
     : maxThreshold(maxThreshold), alerters(alerters) {}
-	
+
 // Function to check input data and trigger alerts if needed
 void StatsAlerter::checkAndAlert(const std::vector<float>& data) {
     if (data.empty())
@@ -46,8 +40,4 @@ void StatsAlerter::checkAndAlert(const std::vector<float>& data) {
         }
     }
 }
-
-
-
-
 
