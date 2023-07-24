@@ -22,8 +22,8 @@ TEST(Statistics, AverageNaNForEmpty) {
     EXPECT_TRUE(std::isnan(computedStats.min));
 }
 
-int emailAlertCallCount = 0;
-int ledAlertCallCount = 0;
+extern int emailAlertCallCount;
+extern int ledAlertCallCount;
 
 TEST(Alert, AlertsWhenMaxExceeds) {
     // create additional .c and .h files
@@ -33,12 +33,15 @@ TEST(Alert, AlertsWhenMaxExceeds) {
     float numberset[] = {99.8, 34.2, 4.5};
     int setlength = sizeof(numberset) / sizeof(numberset[0]);
     Stats computedStats = compute_statistics(numberset, setlength);
-
-    const float maxThreshold = 10.2;
-    check_and_alert(maxThreshold, alerters, computedStats);
-
     // need a way to check if both emailAlerter, ledAlerter were called
     // you can define call-counters along with the functions, as shown below
     EXPECT_EQ(emailAlertCallCount, 1);
     EXPECT_EQ(ledAlertCallCount, 1);
+}
+
+int main(int argc, char* argv[])
+{
+    ::testing::InitGoogleTest(&argc, argv);
+    int result = RUN_ALL_TESTS();
+    return result; 
 }

@@ -1,5 +1,5 @@
-#ifndef STATS_H_
-#define STATS_H_
+#ifndef STATS_H
+#define STATS_H
 
 struct Stats {
     float average;
@@ -8,6 +8,5 @@ struct Stats {
 };
 
 struct Stats compute_statistics(const float* numberset, int setlength);
-void check_and_alert(float maxThreshold, alerter_funcptr alerters[], struct Stats computedStats);
 
 #endif // STATS_H
