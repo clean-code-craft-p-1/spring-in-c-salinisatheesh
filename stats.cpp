@@ -27,27 +27,3 @@ Stats Statistics::ComputeStatistics(const std::vector<double>&vecValues) {
 	return stat;
 		
 }
-
-StatsAlerter::StatsAlerter(const float maxThreshold, std::vector<IAlerter*> vecAlert)
-{
-	StatsAlerter::maxThreshold = maxThreshold;
-}
-
-void StatsAlerter::checkAndAlert(const std::vector<double>& vecValues) {
-
-	for (int i = 0; i < vecValues.size(); i++)
-	{
-		if (vecValues[i] > maxThreshold)
-		{
-			EmailAlert ea;
-			ea.emailSent = true;
-
-			LEDAlert LA;
-			LA.ledGlows = true;
-		}
-	}
-}
-
-void EmailAlert::Alert() {}
-
-void LEDAlert::Alert(){}
