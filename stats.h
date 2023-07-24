@@ -1,52 +1,39 @@
 #include <vector>
 
-namespace Statistics 
-{
-    
-    // define the Stats structure here. See the tests to infer its properties
-    struct Stats
-    {
-        float min{};
-        float max{};
-        float average{};
+namespace Statistics {
+	// define the Stats structure here. See the tests to infer its properties
+	struct Stats {
+		double average;
+		double max;
+		double min;
 
-    };
-    
-    Stats ComputeStatistics(const std::vector<float>& values );
 
+	}; 
+	
+	Stats ComputeStatistics(const std::vector<double>& vecValues);
 }
 
-// Forward declaration of the IAlerter interface
-class IAlerter {
-public:
-    virtual void alert() = 0;
-};
+ class IAlerter {
 
-// EmailAlert class implementing the IAlerter interface
+	 virtual void Alert() = 0;
+};
 class EmailAlert : public IAlerter {
 public:
-    void alert() override;
+	bool emailSent = true;
 
-    bool emailSent = false; // Flag to indicate whether the email alert was sent
+	void Alert();
 };
 
-// LEDAlert class implementing the IAlerter interface
 class LEDAlert : public IAlerter {
 public:
-    void alert() override;
-
-    bool ledGlows = false; // Flag to indicate whether the LED alert was triggered
+	void Alert();
+	bool ledGlows = true;
 };
 
-// StatsAlerter class
 class StatsAlerter {
+
 public:
-    StatsAlerter(float maxThreshold, const std::vector<IAlerter*>& alerters);
-
-    // Function to check input data and trigger alerts if needed
-    void checkAndAlert(const std::vector<float>& data);
-
-private:
-    float maxThreshold; // Maximum threshold to trigger alerts
-    std::vector<IAlerter*> alerters; // Vector of IAlerter pointers to trigger alerts
+	float maxThreshold;
+	StatsAlerter(const float maxThreshold, std::vector<IAlerter*> vecAlert);
+	void checkAndAlert(const std::vector<double>& vecValues);
 };

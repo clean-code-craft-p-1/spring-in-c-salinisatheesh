@@ -1,85 +1,53 @@
-#define _USE_MATH_DEFINES // Define this before including <cmath> to enable additional math constants
 #include "stats.h"
-#include <cmath>
-
+#include <numeric>
+#include <limits>
+#include <algorithm>
 using namespace Statistics;
+#define Assignment_NAN (std::numeric_limits<double>::quiet_NaN())
 
+Stats Statistics::ComputeStatistics(const std::vector<double>&vecValues) {
+	//Implement statistics here
+	Stats stat;
 
-Stats Statistics::ComputeStatistics(const std::vector<float>& inData)
+	if (!vecValues.empty())
+	{
+		double sum = accumulate(vecValues.begin(), vecValues.end(), 0.0);
+		stat.average = (sum / vecValues.size());
+
+		stat.max = *(std::max_element(vecValues.begin(), vecValues.end()));
+		stat.min = *(std::min_element(vecValues.begin(), vecValues.end()));
+	}
+	else {
+		stat.average = Assignment_NAN;
+		stat.max = Assignment_NAN;
+		stat.min = Assignment_NAN;
+	}
+			
+
+	return stat;
+		
+}
+
+StatsAlerter::StatsAlerter(const float maxThreshold, std::vector<IAlerter*> vecAlert)
 {
-/*   It takes a vector of float numbers as inputs
-     returns the tatisticss (min, max, avg) peroformed on the input */ 
-   
-    Stats result{};
-
-    if (inData.empty()) {
-        // Handle the case when the input data is empty.
-        result.average = NAN; // NAN represents "Not a Number."
-        result.min     = NAN;
-        result.max     = NAN;
-        return result;
-    }
-
-    float sum  = 0.0;
-    result.min = inData[0];
-    result.max = inData[0];
-
-    for (float value : inData) {
-        sum += value;
-
-        if (value < result.min) {
-            result.min = value;
-        }
-
-        if (value > result.max) {
-            result.max = value;
-        }
-    }
-
-    result.average = sum / static_cast<float>(inData.size());
-
-    return result;
+	StatsAlerter::maxThreshold = maxThreshold;
 }
 
-// EmailAlert implementation
-void EmailAlert::alert() {
-    // Implementation to send an email alert
-    // For the purpose of this example, we will just set a flag to indicate the alert
-    emailSent = true;
+void StatsAlerter::checkAndAlert(const std::vector<double>& vecValues) {
+
+	for (int i = 0; i < vecValues.size(); i++)
+	{
+		if (vecValues[i] > maxThreshold)
+		{
+			EmailAlert ea;
+			ea.emailSent = true;
+
+			LEDAlert LA;
+			LA.ledGlows = true;
+		}
+	}
 }
 
-// LEDAlert implementation
-void LEDAlert::alert() {
-    // Implementation to activate an LED alert
-    // For the purpose of this example, we will just set a flag to indicate the alert
-    ledGlows = true;
-}
+void EmailAlert::Alert() {}
 
-// StatsAlerter constructor
-StatsAlerter::StatsAlerter(float maxThreshold, const std::vector<IAlerter*>& alerters)
-    : maxThreshold(maxThreshold), alerters(alerters) {}
-
-// Function to check input data and trigger alerts if needed
-void StatsAlerter::checkAndAlert(const std::vector<float>& data) {
-    if (data.empty())
-        return;
-
-    float max = data[0];
-
-    // Find the maximum value in the input data
-    for (float value : data) {
-        if (value > max) {
-            max = value;
-        }
-    }
-
-    // Check if the maximum value exceeds the threshold
-    if (max > maxThreshold) {
-        // Trigger alerts by calling the alert() function on each IAlerter object
-        for (IAlerter* alerter : alerters) {
-            alerter->alert();
-        }
-    }
-}
-
-
+void LEDAlert::Alert(){}
