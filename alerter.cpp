@@ -1,5 +1,4 @@
 #include "alerter.h"
-#include <vector> // Add this line to include the <vector> header
 
 int emailAlertCallCount = 0;
 int ledAlertCallCount = 0;
