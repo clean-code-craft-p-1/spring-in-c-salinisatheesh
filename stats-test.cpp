@@ -16,8 +16,8 @@ TEST(Statistics, AverageNaNForEmpty) {
     //All fields of computedStats (average, max, min) must be
     //NAN (not-a-number), as defined in math.h
     EXPECT_TRUE(std::isnan(computedStats.average));
-    EXPECT_TRUE(std::isnan(computedStats.max));
-    EXPECT_TRUE(std::isnan(computedStats.min));
+	EXPECT_TRUE(std::isnan(computedStats.max));
+	EXPECT_TRUE(std::isnan(computedStats.min));
     //Design the REQUIRE statement here.
     //Use http://www.cplusplus.com/reference/cmath/isnan/
 }
@@ -26,7 +26,7 @@ TEST(Alert, AlertsWhenMaxExceeds) {
     EmailAlert emailAlert;
     LEDAlert ledAlert;
     std::vector<IAlerter*> alerters = {&emailAlert, &ledAlert};
-
+    
     const float maxThreshold = 10.2;
     StatsAlerter statsAlerter(maxThreshold, alerters);
     statsAlerter.checkAndAlert({99.8, 34.2, 4.5, 6.7});

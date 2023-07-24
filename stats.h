@@ -1,52 +1,39 @@
-
 #include <vector>
-namespace Statistics 
-{
-    
-    // define the Stats structure here. See the tests to infer its properties
-    struct Stats
-    {
-        float min{};
-        float max{};
-        float average{};
 
-    };
-    
-    Stats ComputeStatistics(const std::vector<float>& values );
+namespace Statistics {
+	// define the Stats structure here. See the tests to infer its properties
+	struct Stats {
+		double average;
+		double max;
+		double min;
 
+
+	}; 
+	
+	Stats ComputeStatistics(const std::vector<double>& vecValues);
 }
 
-class IAlerter {
-public:
-    virtual void alert() = 0;
-};
+ class IAlerter {
 
-// EmailAlert class 
+	 virtual void Alert() = 0;
+};
 class EmailAlert : public IAlerter {
 public:
-    void alert() override;
+	bool emailSent = true;
 
-    bool emailSent = false; 
+	void Alert();
 };
 
-// LEDAlert class 
 class LEDAlert : public IAlerter {
 public:
-    void alert() override;
-
-    bool ledGlows = false; // Flag to indicate whether the LED alert was triggered
+	void Alert();
+	bool ledGlows = true;
 };
 
-// StatsAlerter class
 class StatsAlerter {
+
 public:
-    StatsAlerter(float maxThreshold, const std::vector<IAlerter*>& alerters);
-
-    
-    void checkAndAlert(const std::vector<float>& data);
-
-private:
-    float maxThreshold; // Maximum threshold to trigger alerts
-    std::vector<IAlerter*> alerters; // Vector of IAlerter pointers to trigger alerts
+	float maxThreshold;
+	StatsAlerter(const float maxThreshold, std::vector<IAlerter*> vecAlert);
+	void checkAndAlert(const std::vector<double>& vecValues);
 };
-
