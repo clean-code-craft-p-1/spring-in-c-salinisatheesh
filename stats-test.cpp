@@ -5,43 +5,29 @@
 #include <math.h>
 
 TEST(Statistics, ReportsAverageMinMax) {
-    float numberset[] = {1.5, 8.9, 3.2, 4.5};
-    int setlength = sizeof(numberset) / sizeof(numberset[0]);
-    struct Stats computedStats = compute_statistics(numberset, setlength);
+    auto computedStats = Statistics::ComputeStatistics({1.5, 8.9, 3.2, 4.5});
     float epsilon = 0.001;
-    EXPECT_LT(abs(computedStats.average - 4.525), epsilon);
-    EXPECT_LT(abs(computedStats.max - 8.9), epsilon);
-    EXPECT_LT(abs(computedStats.min - 1.5), epsilon);
+    EXPECT_LT(std::abs(computedStats.average - 4.525), epsilon);
+    EXPECT_LT(std::abs(computedStats.max - 8.9), epsilon);
+    EXPECT_LT(std::abs(computedStats.min - 1.5), epsilon);
 }
 
 TEST(Statistics, AverageNaNForEmpty) {
-    Stats computedStats = compute_statistics(0, 0);
-    // Test that the average, max, and min values are NaN for an empty array
+    auto computedStats = Statistics::ComputeStatistics({});
     EXPECT_TRUE(std::isnan(computedStats.average));
     EXPECT_TRUE(std::isnan(computedStats.max));
     EXPECT_TRUE(std::isnan(computedStats.min));
 }
 
-extern int emailAlertCallCount;
-extern int ledAlertCallCount;
-
 TEST(Alert, AlertsWhenMaxExceeds) {
-    // create additional .c and .h files
-    // containing functions called emailAlerter, ledAlerter
-    alerter_funcptr alerters[] = {emailAlerter, ledAlerter};
+    EmailAlert emailAlert;
+    LEDAlert ledAlert;
+    std::vector<IAlerter*> alerters = {&emailAlert, &ledAlert};
+    
+    const float maxThreshold = 10.2;
+    StatsAlerter statsAlerter(maxThreshold, alerters);
+    statsAlerter.checkAndAlert({99.8, 34.2, 4.5, 6.7});
 
-    float numberset[] = {99.8, 34.2, 4.5};
-    int setlength = sizeof(numberset) / sizeof(numberset[0]);
-    Stats computedStats = compute_statistics(numberset, setlength);
-    // need a way to check if both emailAlerter, ledAlerter were called
-    // you can define call-counters along with the functions, as shown below
-    EXPECT_EQ(emailAlertCallCount, 1);
-    EXPECT_EQ(ledAlertCallCount, 1);
-}
-
-int main(int argc, char* argv[])
-{
-    ::testing::InitGoogleTest(&argc, argv);
-    int result = RUN_ALL_TESTS();
-    return result; 
+    EXPECT_TRUE(emailAlert.emailSent);
+    EXPECT_TRUE(ledAlert.ledGlows);
 }

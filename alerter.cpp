@@ -1,15 +1,21 @@
 #include "alerter.h"
 
-// Define call counters for emailAlerter and ledAlerter
-int emailAlertCallCount = 0;
-int ledAlertCallCount = 0;
-
-void emailAlerter(void) {
-    // Implementation of emailAlerter (can be left empty for testing purposes)
-    emailAlertCallCount++;
+void EmailAlert::Alert() {
+    emailSent = true;
 }
 
-void ledAlerter(void) {
-    // Implementation of ledAlerter (can be left empty for testing purposes)
-    ledAlertCallCount++;
+void LEDAlert::Alert() {
+    ledGlows = true;
+}
+
+StatsAlerter::StatsAlerter(float maxThreshold, const std::vector<IAlerter*>& alerters)
+    : maxThreshold_(maxThreshold), alerters_(alerters) {}
+
+void StatsAlerter::checkAndAlert(const std::vector<float>& numberset) {
+    Stats computedStats = Statistics::ComputeStatistics(numberset);
+    if (computedStats.max > maxThreshold_) {
+        for (auto alerter : alerters_) {
+            alerter->Alert();
+        }
+    }
 }
