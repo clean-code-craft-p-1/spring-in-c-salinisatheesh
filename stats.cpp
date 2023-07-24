@@ -1,8 +1,7 @@
 #include "stats.h"
 #include "alerter.h"
 // Define call counters for emailAlerter and ledAlerter
-int emailAlertCallCount = 0;
-int ledAlertCallCount = 0;
+
 
 struct Stats compute_statistics(const float* numbers, int length) {
     Stats result;
