@@ -16,11 +16,10 @@ TEST(Statistics, ReportsAverageMinMax) {
 
 TEST(Statistics, AverageNaNForEmpty) {
     Stats computedStats = compute_statistics(0, 0);
-    //All fields of computedStats (average, max, min) must be
-    //NAN (not-a-number), as defined in math.h
-    
-    //Design the EXPECT statement here.
-    //Use https://stackoverflow.com/questions/1923837/how-to-use-nan-and-inf-in-c
+    // Test that the average, max, and min values are NaN for an empty array
+    EXPECT_TRUE(std::isnan(computedStats.average));
+    EXPECT_TRUE(std::isnan(computedStats.max));
+    EXPECT_TRUE(std::isnan(computedStats.min));
 }
 
 int emailAlertCallCount = 0;
