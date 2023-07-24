@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.14)
-project(spring-in-c-sudeeprp)
+project(spring-in-c-salinisatheesh)
 
 # GoogleTest requires at least C++14
 set(CMAKE_CXX_STANDARD 14)

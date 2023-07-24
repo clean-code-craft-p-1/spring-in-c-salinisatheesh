@@ -1,7 +1,17 @@
+#ifndef STATS_H
+#define STATS_H
 
-// define the Stats structure here. See the tests to infer its properties
+#include <vector>
 
-struct Stats compute_statistics(const float* numberset, int setlength);
+struct Stats {
+    float average;
+    float max;
+    float min;
+};
 
-typedef void (*alerter_funcptr)();
-void check_and_alert(float maxThreshold, alerter_funcptr alerters[], struct Stats computedStats);
+class Statistics {
+public:
+    static Stats ComputeStatistics(const std::vector<float>& numberset);
+};
+
+#endif // STATS_H
