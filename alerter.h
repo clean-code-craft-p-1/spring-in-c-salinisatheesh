@@ -1,32 +1,11 @@
 #ifndef ALERTER_H
 #define ALERTER_H
 
-class IAlerter {
-public:
-    virtual ~IAlerter() {}
-    virtual void Alert() = 0;
-};
+typedef void (*alerter_funcptr)(void);
 
-class EmailAlert : public IAlerter {
-public:
-    bool emailSent = false;
-    void Alert() override;
-};
+void emailAlerter(void);
+void ledAlerter(void);
 
-class LEDAlert : public IAlerter {
-public:
-    bool ledGlows = false;
-    void Alert() override;
-};
-
-class StatsAlerter {
-public:
-    StatsAlerter(float maxThreshold, const std::vector<IAlerter*>& alerters);
-    void checkAndAlert(const std::vector<float>& numberset);
-
-private:
-    float maxThreshold_;
-    std::vector<IAlerter*> alerters_;
-};
+void check_and_alert(const float maxThreshold, alerter_funcptr* alerters, struct Stats computedStats);
 
 #endif // ALERTER_H
