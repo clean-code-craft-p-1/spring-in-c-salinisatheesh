@@ -1,6 +1,7 @@
-#include <stdio.h>
-#include <vector>
-#include <cmath>
+#ifndef ALERTER_H
+#define ALERTER_H
+
+#include <vector> // Add this line to include the vector header
 
 class IAlerter {
 public:
@@ -29,4 +30,5 @@ private:
     std::vector<IAlerter*> alerters_;
 };
 
+#endif // ALERTER_H
 
