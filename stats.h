@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <vector.h>
 struct Stats {
     float average;
     float max;
