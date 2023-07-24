@@ -1,21 +1,23 @@
- #include "alerter.h"
+#include "alerter.h"
+#include <vector> // Add this line to include the <vector> header
 
-void EmailAlert::Alert() {
-    emailSent = true;
+int emailAlertCallCount = 0;
+int ledAlertCallCount = 0;
+
+void emailAlerter(void) {
+    // Implementation of emailAlerter (can be left empty for testing purposes)
+    emailAlertCallCount++;
 }
 
-void LEDAlert::Alert() {
-    ledGlows = true;
+void ledAlerter(void) {
+    // Implementation of ledAlerter (can be left empty for testing purposes)
+    ledAlertCallCount++;
 }
 
-StatsAlerter::StatsAlerter(float maxThreshold, const std::vector<IAlerter*>& alerters)
-    : maxThreshold_(maxThreshold), alerters_(alerters) {}
-
-void StatsAlerter::checkAndAlert(const std::vector<float>& numberset) {
-    Stats computedStats = Statistics::ComputeStatistics(numberset);
-    if (computedStats.max > maxThreshold_) {
-        for (auto alerter : alerters_) {
-            alerter->Alert();
+void check_and_alert(const float maxThreshold, alerter_funcptr* alerters, struct Stats computedStats) {
+    if (computedStats.max > maxThreshold) {
+        for (int i = 0; i < 2; ++i) {
+            alerters[i](); 
         }
     }
 }
