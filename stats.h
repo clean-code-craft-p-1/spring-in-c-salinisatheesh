@@ -1,10 +1,17 @@
-#include <stdio.h>
+
 #include <vector>
-struct Stats {
-    float average;
-    float max;
-    float min;
-};
+namespace Statistics 
+{
+    
+    // define the Stats structure here. See the tests to infer its properties
+    struct Stats
+    {
+        float min{};
+        float max{};
+        float average{};
 
-Stats compute_statistics(const float* numbers, int length);
+    };
+    
+    Stats ComputeStatistics(const std::vector<float>& values );
 
+}

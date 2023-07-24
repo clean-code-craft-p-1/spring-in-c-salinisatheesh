@@ -10,18 +10,32 @@ void LEDAlert::alert() {
     ledGlows = true;
 }
 
+// StatsAlerter constructor
 StatsAlerter::StatsAlerter(float maxThreshold, const std::vector<IAlerter*>& alerters)
-    : maxThreshold_(maxThreshold), alerters_(alerters) {}
+    : maxThreshold(maxThreshold), alerters(alerters) {}
+	
+// Function to check input data and trigger alerts if needed
+void StatsAlerter::checkAndAlert(const std::vector<float>& data) {
+    if (data.empty())
+        return;
 
-void StatsAlerter::checkAndAlert(const std::vector<float>& numberset) {
-    Stats computedStats = compute_statistics(numberset.data(), numberset.size());
-    if (computedStats.max > maxThreshold_) {
-        for (auto alerter : alerters_) {
+    float max = data[0];
+
+    // Find the maximum value in the input data
+    for (float value : data) {
+        if (value > max) {
+            max = value;
+        }
+    }
+
+    // Check if the maximum value exceeds the threshold
+    if (max > maxThreshold) {
+        // Trigger alerts by calling the alert() function on each IAlerter object
+        for (IAlerter* alerter : alerters) {
             alerter->alert();
         }
     }
 }
-
 
 
 
