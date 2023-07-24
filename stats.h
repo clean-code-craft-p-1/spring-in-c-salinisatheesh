@@ -6,6 +6,5 @@ struct Stats {
     float min;
 };
 
-struct Stats compute_statistics(const float* numbers, int length);
-
+Stats compute_statistics(const float* numbers, int length);
 

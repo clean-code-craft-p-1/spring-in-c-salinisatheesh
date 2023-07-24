@@ -1,16 +1,13 @@
 #include "alerter.h"
 
-int emailAlertCallCount = 0;
-int ledAlertCallCount = 0;
-
-void emailAlerter(void) {
-    // Implementation of emailAlerter (can be left empty for testing purposes)
-    emailAlertCallCount++;
+void EmailAlert::alert() {
+    // Code to send email alert
+    emailSent = true;
 }
 
-void ledAlerter(void) {
-    // Implementation of ledAlerter (can be left empty for testing purposes)
-    ledAlertCallCount++;
+void LEDAlert::alert() {
+    // Code to make LED glow
+    ledGlows = true;
 }
 
 StatsAlerter::StatsAlerter(float maxThreshold, const std::vector<IAlerter*>& alerters)
@@ -20,7 +17,7 @@ void StatsAlerter::checkAndAlert(const std::vector<float>& numberset) {
     Stats computedStats = compute_statistics(numberset.data(), numberset.size());
     if (computedStats.max > maxThreshold_) {
         for (auto alerter : alerters_) {
-            alerter();
+            alerter->alert();
         }
     }
 }

@@ -1,30 +1,24 @@
+
 #include "stats.h"
-#include <math.h>
-struct Stats compute_statistics(const float* numbers, int length) {
-    Stats result;
+#include <algorithm>
+#include <cmath>
+
+Stats compute_statistics(const float* numbers, int length) {
+    Stats stats = {0.0f, 0.0f, 0.0f};
 
     if (length == 0) {
-        result.average = NAN;
-        result.max = NAN;
-        result.min = NAN;
-        return result;
+        return stats;
     }
 
-    result.min = numbers[0];
-    result.max = numbers[0];
-    float sum = numbers[0];
+    float sum = 0.0f;
+    stats.min = stats.max = numbers[0];
 
-    for (int i = 1; i < length; ++i) {
-        if (numbers[i] < result.min) {
-            result.min = numbers[i];
-        }
-        if (numbers[i] > result.max) {
-            result.max = numbers[i];
-        }
+    for (int i = 0; i < length; ++i) {
         sum += numbers[i];
+        stats.min = std::min(stats.min, numbers[i]);
+        stats.max = std::max(stats.max, numbers[i]);
     }
 
-    result.average = sum / static_cast<float>(length);
-
-    return result;
+    stats.average = sum / static_cast<float>(length);
+    return stats;
 }
